@@ -1,0 +1,3 @@
+foxpath==2.0.4
+lxml==4.1.1
+pytest==3.3.2
