@@ -1,4 +1,3 @@
-from datetime import date
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
@@ -19,7 +18,7 @@ class TestTotalOrganisationBudget(TestCase):
         with open(feature_path, 'rb') as f:
             feature_txt = f.read().decode('utf8')
 
-        today = date(2014, 6, 1)
+        today = '2014-06-01'
         self.feature = foxpath.load_feature(feature_txt, today=today)
 
     def test_not_an_organisation_file(self):

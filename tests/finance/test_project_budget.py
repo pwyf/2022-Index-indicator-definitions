@@ -1,4 +1,3 @@
-from datetime import date
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
@@ -19,7 +18,7 @@ class TestProjectBudget(TestCase):
         with open(feature_path, 'rb') as f:
             feature_txt = f.read().decode('utf8')
 
-        today = date(2010, 1, 1)
+        today = '2010-01-01'
         self.feature = foxpath.load_feature(feature_txt, today=today)
 
     def test_default_aid_type_not_relevant(self):
