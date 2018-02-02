@@ -11,8 +11,7 @@ class TestDisbursementsAndExpenditures(TestCase):
         steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
-                            'index_2017', 'finance',
-                            '12_disbursements_and_expenditures.feature')
+                            'finance', '12_disbursements_and_expenditures.feature')
 
         foxpath = Foxpath(steps_path)
         with open(feature_path, 'rb') as f:

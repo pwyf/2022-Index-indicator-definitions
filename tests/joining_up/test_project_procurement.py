@@ -11,8 +11,7 @@ class TestProcurement(TestCase):
         steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
-                            'index_2017', 'joining_up',
-                            '29_project_procurement.feature')
+                            'joining_up', '29_project_procurement.feature')
 
         foxpath = Foxpath(steps_path)
         with open(feature_path, 'rb') as f:

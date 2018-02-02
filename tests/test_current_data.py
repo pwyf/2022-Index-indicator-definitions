@@ -11,7 +11,7 @@ class TestCurrentData(TestCase):
         steps_path = join(self.FILEPATH, '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', 'test_definitions',
-                            'index_2017', 'current_data.feature')
+                            'current_data.feature')
 
         foxpath = Foxpath(steps_path)
         with open(feature_path, 'rb') as f:

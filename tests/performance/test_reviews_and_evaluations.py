@@ -11,7 +11,7 @@ class TestReviewsAndEvaluations(TestCase):
         steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
-                            'index_2017', 'performance',
+                            'performance',
                             '32_reviews_and_evaluations.feature')
 
         foxpath = Foxpath(steps_path)
