@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -13,11 +13,8 @@ class TestTotalOrgBudgetNow(TestCase):
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                             'finance', '07_total_organisation_budget.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
-
-        self.feature = foxpath.load_feature(feature_txt)
+        tester = bdd_tester(steps_path)
+        self.feature = tester.load_feature(feature_path)
 
     def test_organisation_file(self):
         xml = '''
@@ -79,9 +76,8 @@ class TestTotalOrgBudgetNow(TestCase):
         </iati-organisation>
         '''
 
-        results = []
-        for test in [x[1] for x in self.feature[1]]:
+        expected_results = [True, True, False]
+        for test in self.feature.tests:
             activity = etree.fromstring(xml)
-            result = test(activity)
-            results.append(result[0])
-        assert results == [True, True, False]
+            expected_result = expected_results.pop(0)
+            assert test(activity) is expected_result

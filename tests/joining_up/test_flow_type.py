@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -13,14 +13,13 @@ class TestFlowType(TestCase):
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                             'joining_up', '24_flow_type.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
-
-        codelists = {'FlowType': ['10', '20', '21', '22', '30',
-                                  '35', '36', '37', '40', '50']}
-        feature = foxpath.load_feature(feature_txt, codelists=codelists)
-        self.test = feature[1][1][1]
+        tester = bdd_tester(steps_path)
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[1]
+        # remove the current data test
+        self.test.steps.pop(0)
+        self.codelists = {'FlowType': ['10', '20', '21', '22', '30',
+                                       '35', '36', '37', '40', '50']}
 
     def test_flow_types_on_codelist(self):
         xml = '''
@@ -34,9 +33,9 @@ class TestFlowType(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, codelists=self.codelists)
 
-        assert result[0] is True
+        assert result is True
 
     def test_flow_types_not_on_codelist(self):
         xml = '''
@@ -50,9 +49,9 @@ class TestFlowType(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, codelists=self.codelists)
 
-        assert result[0] is False
+        assert result is False
 
     def test_flow_type_not_present(self):
         xml = '''
@@ -64,6 +63,6 @@ class TestFlowType(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, codelists=self.codelists)
 
-        assert result[0] is False
+        assert result is False

@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -11,14 +11,14 @@ class TestDisbursementsAndExpenditures(TestCase):
         steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
-                            'finance', '12_disbursements_and_expenditures.feature')
+                            'finance',
+                            '12_disbursements_and_expenditures.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
-
-        feature = foxpath.load_feature(feature_txt)
-        self.test = feature[1][0][1]
+        tester = bdd_tester(steps_path)
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[0]
+        # remove the current data test
+        self.test.steps.pop(0)
 
     def test_disbursement_or_expenditure_present(self):
         xml = '''
@@ -34,7 +34,7 @@ class TestDisbursementsAndExpenditures(TestCase):
             activity = etree.fromstring(xml.format(transaction_type))
             result = self.test(activity)
 
-            assert result[0] is True
+            assert result is True
 
     def test_disbursement_or_expenditure_not_present(self):
         xml = '''
@@ -49,4 +49,4 @@ class TestDisbursementsAndExpenditures(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is False
+        assert result is False

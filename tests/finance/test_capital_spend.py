@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -13,12 +13,11 @@ class TestCapitalSpend(TestCase):
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                             'finance', '13_capital_spend.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
-
-        feature = foxpath.load_feature(feature_txt)
-        self.test = feature[1][0][1]
+        tester = bdd_tester(steps_path)
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[0]
+        # remove the current data test
+        self.test.steps.pop(0)
 
     def test_capital_spend_present(self):
         xml = '''
@@ -35,7 +34,7 @@ class TestCapitalSpend(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is True
+        assert result is True
 
     def test_capital_spend_not_present(self):
         xml = '''
@@ -47,7 +46,7 @@ class TestCapitalSpend(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is False
+        assert result is False
 
     def test_capital_spend_not_relevant_status(self):
         xml = '''
@@ -60,7 +59,7 @@ class TestCapitalSpend(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is None
+        assert result is None
 
     def test_capital_spend_not_relevant_aid_type(self):
         xml = '''
@@ -75,7 +74,7 @@ class TestCapitalSpend(TestCase):
             activity = etree.fromstring(xml.format(aid_type))
             result = self.test(activity)
 
-            assert result[0] is None
+            assert result is None
 
     def test_capital_spend_not_relevant_transaction_aid_type(self):
         xml = '''
@@ -91,4 +90,4 @@ class TestCapitalSpend(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is None
+        assert result is None

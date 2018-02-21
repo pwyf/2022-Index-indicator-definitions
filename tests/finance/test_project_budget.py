@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -13,12 +13,14 @@ class TestProjectBudget(TestCase):
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                             'finance', '09_project_budget.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
+        self.today = '2010-01-01'
+        tester = bdd_tester(steps_path)
+        self.feature = tester.load_feature(feature_path)
+        for test in self.feature.tests:
+            # remove the current data test
+            test.steps.pop(0)
 
-        today = '2010-01-01'
-        self.feature = foxpath.load_feature(feature_txt, today=today)
+        self.test = self.feature.tests[0]
 
     def test_default_aid_type_not_relevant(self):
         xml = '''
@@ -28,12 +30,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is None
+        assert result is None
 
     def test_budget_not_present(self):
         xml = '''
@@ -43,12 +43,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_end_too_soon_not_relevant(self):
         xml = '''
@@ -58,12 +56,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is None
+        assert result is None
 
     def test_multiple_dates_budget_not_present(self):
         xml = '''
@@ -74,12 +70,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_annual_budget_present(self):
         xml = '''
@@ -94,12 +88,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True
 
     def test_annual_budget_period_too_long(self):
         xml = '''
@@ -114,12 +106,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_annual_budget_no_dates(self):
         xml = '''
@@ -132,12 +122,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_annual_budget_bad_dates(self):
         xml = '''
@@ -152,12 +140,10 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][0][1]
-
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_quarterly_budget_period_too_long(self):
         xml = '''
@@ -172,12 +158,12 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][1][1]
+        test = self.feature.tests[1]
 
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_quarterly_budget_present(self):
         xml = '''
@@ -192,9 +178,9 @@ class TestProjectBudget(TestCase):
         </iati-activity>
         '''
 
-        test = self.feature[1][1][1]
+        test = self.feature.tests[1]
 
         activity = etree.fromstring(xml)
-        result = test(activity)
+        result = test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True

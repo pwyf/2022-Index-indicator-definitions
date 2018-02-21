@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -14,12 +14,11 @@ class TestReviewsAndEvaluations(TestCase):
                             'performance',
                             '32_reviews_and_evaluations.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
-
-        feature = foxpath.load_feature(feature_txt)
-        self.test = feature[1][0][1]
+        tester = bdd_tester(steps_path)
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[0]
+        # remove the current data test
+        self.test.steps.pop(0)
 
     def test_activity_in_implementation_so_ignore(self):
         xml = '''
@@ -31,7 +30,7 @@ class TestReviewsAndEvaluations(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is None
+        assert result is None
 
     def test_activity_in_implementation_evaluation_present(self):
         xml = '''
@@ -46,7 +45,7 @@ class TestReviewsAndEvaluations(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is True
+        assert result is True
 
     def test_activity_in_completion_evaluation_missing(self):
         xml = '''
@@ -58,7 +57,7 @@ class TestReviewsAndEvaluations(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is False
+        assert result is False
 
     def test_activity_in_completion_but_admin_costs(self):
         xml = '''
@@ -74,4 +73,4 @@ class TestReviewsAndEvaluations(TestCase):
         activity = etree.fromstring(xml)
         result = self.test(activity)
 
-        assert result[0] is None
+        assert result is None

@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from foxpath import Foxpath
+from bdd_tester import bdd_tester
 from lxml import etree
 
 
@@ -13,13 +13,11 @@ class TestCurrentData(TestCase):
         feature_path = join(self.FILEPATH, '..', 'test_definitions',
                             'current_data.feature')
 
-        foxpath = Foxpath(steps_path)
-        with open(feature_path, 'rb') as f:
-            feature_txt = f.read().decode('utf8')
+        tester = bdd_tester(steps_path)
 
-        today = '2010-01-01'
-        feature = foxpath.load_feature(feature_txt, today=today)
-        self.test = feature[1][0][1]
+        self.today = '2010-01-01'
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[0]
 
     def test_activity_is_in_implementation(self):
         xml = '''
@@ -29,9 +27,9 @@ class TestCurrentData(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True
 
     def test_activity_is_not_in_implementation(self):
         xml = '''
@@ -41,9 +39,9 @@ class TestCurrentData(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is False
+        assert result is False
 
     def test_activity_recently_ended(self):
         xml = '''
@@ -54,9 +52,9 @@ class TestCurrentData(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True
 
     def test_activity_end_is_in_the_future(self):
         xml = '''
@@ -67,9 +65,9 @@ class TestCurrentData(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True
 
     def test_activity_has_recent_transaction(self):
         xml = '''
@@ -83,6 +81,6 @@ class TestCurrentData(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today=self.today)
 
-        assert result[0] is True
+        assert result is True
