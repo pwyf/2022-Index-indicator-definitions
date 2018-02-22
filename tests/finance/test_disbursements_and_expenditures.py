@@ -18,13 +18,13 @@ class TestDisbursementsAndExpenditures(TestCase):
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[0]
 
-    def test_disbursement_or_expenditure_present(self):
+    def test_disbursement_or_expenditure_non_zero(self):
         xml = '''
         <iati-activity>
           <activity-status code="2"/>
           <transaction>
             <transaction-type code="{}"/>
-            <value>123</value>
+            <value>123.45</value>
           </transaction>
         </iati-activity>
         '''
@@ -34,6 +34,21 @@ class TestDisbursementsAndExpenditures(TestCase):
             result = self.test(activity)
 
             assert result is True
+
+    def test_disbursement_or_expenditure_not_present(self):
+        xml = '''
+        <iati-activity>
+          <activity-status code="2"/>
+          <transaction>
+            <transaction-type code="C"/>
+          </transaction>
+        </iati-activity>
+        '''
+
+        activity = etree.fromstring(xml)
+        result = self.test(activity)
+
+        assert result is False
 
     def test_disbursement_or_expenditure_zero(self):
         xml = '''
@@ -55,18 +70,3 @@ class TestDisbursementsAndExpenditures(TestCase):
                 result = self.test(activity)
 
                 assert result is False
-
-    def test_disbursement_or_expenditure_not_present(self):
-        xml = '''
-        <iati-activity>
-          <activity-status code="2"/>
-          <transaction>
-            <transaction-type code="C"/>
-          </transaction>
-        </iati-activity>
-        '''
-
-        activity = etree.fromstring(xml)
-        result = self.test(activity)
-
-        assert result is False

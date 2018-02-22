@@ -50,12 +50,12 @@ def then_is_present_and_nonzero(xml, xpath_expression, **kwargs):
         except AttributeError:
             continue
         try:
-            intval = int(val)
+            floatval = float(val)
         except ValueError:
             continue
         except TypeError:
             continue
-        if intval != 0:
+        if floatval != 0.:
             return
     msg = '`{}` should have non-zero value'.format(xpath_expression)
     raise StepException(xml, msg)
