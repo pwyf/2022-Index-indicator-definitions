@@ -36,6 +36,29 @@ def then_is_present(xml, xpath_expression, **kwargs):
         raise StepException(xml, msg)
 
 
+@then(r'`([^`]+)` should be present and of non-zero value')
+def then_is_present_and_nonzero(xml, xpath_expression, **kwargs):
+    els = xml.xpath(xpath_expression)
+    if len(els) == 0:
+        msg = '`{}` not found'.format(xpath_expression)
+        raise StepException(xml, msg)
+    for el in els:
+        try:
+            val = el.find('value').text
+        except AttributeError:
+            continue
+        try:
+            intval = int(val)
+        except ValueError:
+            continue
+        except TypeError:
+            continue
+        if intval != 0:
+            return
+    msg = '`{}` should have non-zero value'.format(xpath_expression)
+    raise StepException(xml, msg)
+
+
 @then(r'every `([^`]+)` should be on the ([^ ]+) codelist')
 def then_every_on_codelist(xml, xpath_expression, codelist, **kwargs):
     vals = xml.xpath(xpath_expression)
