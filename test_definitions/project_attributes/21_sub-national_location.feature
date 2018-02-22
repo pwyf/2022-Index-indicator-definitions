@@ -12,4 +12,4 @@ Feature: Sub-national location
      And `activity-status/@code` is one of 2, 3 or 4
      And `recipient-region/@code` is not 998
      And `default-aid-type/@code` is not G01
-     Then `location/coordinates | location/point` should be present
+     Then `location[coordinates or point]` should be present
