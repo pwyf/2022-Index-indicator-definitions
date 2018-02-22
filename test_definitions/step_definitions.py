@@ -166,7 +166,7 @@ def then_at_least_x_chars(xml, xpath_expression, reqd_chars, **kwargs):
         msg = '`{}` not found'.format(xpath_expression)
         raise StepException(xml, msg)
 
-    most_chars, most_str = max([(len(val), val) for val in vals])
+    most_chars, most_str = max([(len(val.strip()), val) for val in vals])
     result = most_chars >= reqd_chars
 
     if not result:
