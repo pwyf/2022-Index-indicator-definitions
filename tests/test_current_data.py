@@ -60,7 +60,7 @@ class TestCurrentData(TestCase):
         xml = '''
         <iati-activity>
           <activity-status code="3"/>
-          <activity-date type="4" iso-date="2011-01-01" />
+          <activity-date type="3" iso-date="2011-01-01" />
         </iati-activity>
         '''
 
