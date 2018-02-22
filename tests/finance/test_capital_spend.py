@@ -16,13 +16,11 @@ class TestCapitalSpend(TestCase):
         tester = bdd_tester(steps_path)
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[0]
-        # remove the current data test
-        self.test.steps.pop(0)
 
     def test_capital_spend_present(self):
         xml = '''
         <iati-activity>
-          <activity-status code="4"/>
+          <activity-status code="2"/>
           <default-aid-type code="A09"/>
           <transaction>
             <aid-type code="A03"/>
@@ -39,7 +37,7 @@ class TestCapitalSpend(TestCase):
     def test_capital_spend_not_present(self):
         xml = '''
         <iati-activity>
-          <activity-status code="4"/>
+          <activity-status code="2"/>
         </iati-activity>
         '''
 
@@ -52,12 +50,13 @@ class TestCapitalSpend(TestCase):
         xml = '''
         <iati-activity>
           <activity-status code="1"/>
+          <activity-date type="4" iso-date="2011-01-01"/>
           <capital-spend percentage="100"/>
         </iati-activity>
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today="2011-02-01")
 
         assert result is None
 

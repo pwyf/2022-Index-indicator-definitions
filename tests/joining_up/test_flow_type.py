@@ -16,15 +16,13 @@ class TestFlowType(TestCase):
         tester = bdd_tester(steps_path)
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[1]
-        # remove the current data test
-        self.test.steps.pop(0)
         self.codelists = {'FlowType': ['10', '20', '21', '22', '30',
                                        '35', '36', '37', '40', '50']}
 
     def test_flow_types_on_codelist(self):
         xml = '''
         <iati-activity>
-          <activity-status code="4"/>
+          <activity-status code="2"/>
           <default-flow-type code="20"/>
           <transaction>
             <flow-type code="21"/>
@@ -40,7 +38,7 @@ class TestFlowType(TestCase):
     def test_flow_types_not_on_codelist(self):
         xml = '''
         <iati-activity>
-          <activity-status code="4"/>
+          <activity-status code="2"/>
           <default-flow-type code="19"/>
           <transaction>
             <flow-type code="21"/>
@@ -56,7 +54,7 @@ class TestFlowType(TestCase):
     def test_flow_type_not_present(self):
         xml = '''
         <iati-activity>
-          <activity-status code="4"/>
+          <activity-status code="2"/>
           <transaction>
           </transaction>
         </iati-activity>

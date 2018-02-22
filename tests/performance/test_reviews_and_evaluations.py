@@ -17,8 +17,6 @@ class TestReviewsAndEvaluations(TestCase):
         tester = bdd_tester(steps_path)
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[0]
-        # remove the current data test
-        self.test.steps.pop(0)
 
     def test_activity_in_implementation_so_ignore(self):
         xml = '''
@@ -51,11 +49,12 @@ class TestReviewsAndEvaluations(TestCase):
         xml = '''
         <iati-activity>
           <activity-status code="4"/>
+          <activity-date type="4" iso-date="2011-01-01"/>
         </iati-activity>
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today="2011-02-01")
 
         assert result is False
 
@@ -63,6 +62,7 @@ class TestReviewsAndEvaluations(TestCase):
         xml = '''
         <iati-activity>
           <activity-status code="4"/>
+          <activity-date type="4" iso-date="2011-01-01"/>
           <default-aid-type code="G01"/>
           <document-link>
             <category code="A07"/>
@@ -71,6 +71,6 @@ class TestReviewsAndEvaluations(TestCase):
         '''
 
         activity = etree.fromstring(xml)
-        result = self.test(activity)
+        result = self.test(activity, today="2011-02-01")
 
         assert result is None

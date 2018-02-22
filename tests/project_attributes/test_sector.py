@@ -16,14 +16,12 @@ class TestSector(TestCase):
         self.codelists = {'Sector': ['11110', '11120']}
         tester = bdd_tester(steps_path)
         self.feature = tester.load_feature(feature_path)
-        for test in self.feature.tests:
-            # remove the current data test
-            test.steps.pop(0)
         self.test = self.feature.tests[0]
 
     def test_sector_is_present(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
           <sector code="11110"/>
         </iati-activity>
         '''
@@ -36,6 +34,7 @@ class TestSector(TestCase):
     def test_sector_not_present(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
         </iati-activity>
         '''
 
@@ -47,6 +46,7 @@ class TestSector(TestCase):
     def test_sector_uses_dac_no_vocab(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
           <sector code="11110"/>
         </iati-activity>
         '''
@@ -60,6 +60,7 @@ class TestSector(TestCase):
     def test_sector_uses_dac_and_vocab(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
           <sector vocabulary="{}" code="11110"/>
         </iati-activity>
         '''
@@ -74,6 +75,7 @@ class TestSector(TestCase):
     def test_sector_does_not_use_dac(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
           <sector vocabulary="99" code="11110"/>
         </iati-activity>
         '''
@@ -87,6 +89,7 @@ class TestSector(TestCase):
     def test_multiple_sector_vocabs(self):
         xml = '''
         <iati-activity>
+          <activity-status code="2"/>
           <sector vocabulary="99" code="999"/>
           <sector code="11110"/>
         </iati-activity>

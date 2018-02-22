@@ -16,10 +16,6 @@ class TestProjectBudget(TestCase):
         self.today = '2010-01-01'
         tester = bdd_tester(steps_path)
         self.feature = tester.load_feature(feature_path)
-        for test in self.feature.tests:
-            # remove the current data test
-            test.steps.pop(0)
-
         self.test = self.feature.tests[0]
 
     def test_default_aid_type_not_relevant(self):

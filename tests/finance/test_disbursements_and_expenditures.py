@@ -17,8 +17,6 @@ class TestDisbursementsAndExpenditures(TestCase):
         tester = bdd_tester(steps_path)
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[0]
-        # remove the current data test
-        self.test.steps.pop(0)
 
     def test_disbursement_or_expenditure_present(self):
         xml = '''

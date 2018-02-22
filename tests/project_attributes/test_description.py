@@ -15,9 +15,6 @@ class TestDescription(TestCase):
 
         tester = bdd_tester(steps_path)
         self.feature = tester.load_feature(feature_path)
-        for test in self.feature.tests:
-            # remove the current data test
-            test.steps.pop(0)
         self.test = self.feature.tests[0]
 
     def test_description_not_present(self):

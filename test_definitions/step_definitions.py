@@ -17,9 +17,11 @@ def given_mixed_content(xml, **kwargs):
     raise StepException(xml, msg)
 
 
-@given(r'an activity')
-def an_activity(xml, **kwargs):
-    pass
+@given(r'an IATI activity')
+def an_iati_activity(xml, **kwargs):
+    if xml.tag != 'iati-activity':
+        msg = 'Not an IATI activity'
+        raise StepException(xml, msg)
 
 
 @then(r'skip it')
