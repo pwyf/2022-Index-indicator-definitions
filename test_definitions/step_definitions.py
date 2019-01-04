@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import re
 
 from bdd_tester import given, then, StepException
@@ -222,11 +222,11 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
     return
 
 
-def mkdate(date_str):
+def mkdate(date_str, default=None):
     try:
         return datetime.strptime(date_str, '%Y-%m-%d').date()
-    except ValueError:
-        return None
+    except:
+        return default
 
 
 @given(r'`([^`]+)` is at least (\d+) months ahead')
@@ -263,8 +263,8 @@ def given_at_least_x_months_ahead(xml, xpath_expression,
     if len(valid_dates) > 1 and max_date != min(valid_dates):
         prefix = 'the latest '
 
-    today = kwargs.get('today')
-    year_diff = max_date.year - kwargs.get('today').year
+    today = mkdate(kwargs.get('today'), default=date.today())
+    year_diff = max_date.year - today.year
     month_diff = 12 * year_diff + max_date.month - today.month
     if month_diff == months_ahead:
         success = max_date.day >= today.day
@@ -306,7 +306,7 @@ def given_is_less_than_x_months_ago(xml, xpath_expression,
     if len(valid_dates) > 1 and max_date != min(valid_dates):
         prefix = 'the most recent '
 
-    current_date = kwargs.get('today')
+    current_date = mkdate(kwargs.get('today'), default=date.today())
     if max_date > current_date:
         # msg = '{prefix}{xpath_expression} ({max_date}) is in the future'
         assert(True)
@@ -375,11 +375,11 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
     # We get the latest date for end and start; 365 days forward
     # if there are no dates
 
-    def check_after(element, today):
+    def check_after(element, ref_date):
         dates = element.xpath('period-start/@iso-date | period-end/@iso-date')
         dates = list(filter(
             lambda x: x is not None, [mkdate(d) for d in dates]))
-        return any([date >= today for date in dates])
+        return any([d >= ref_date for d in dates])
 
     def max_budget_length(element, max_budget_length):
         try:
@@ -403,8 +403,9 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
     # A budget has to be:
     # 1) period-end after reference date
     # 2) a maximum number of days, depending on # of qtrs.
+    today = mkdate(kwargs.get('today'), default=date.today())
     for element in vals:
-        after_ref = check_after(element, kwargs.get('today'))
+        after_ref = check_after(element, today)
         within_length = max_budget_length(element, max_days)
         if after_ref and within_length:
             assert(True)
@@ -418,7 +419,7 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
 def then_is_available_x_years_forward(xml, xpath_expression,
                                       years, **kwargs):
     budgets = xml.xpath(xpath_expression)
-    today = kwargs.get('today')
+    today = mkdate(kwargs.get('today'), default=date.today())
     years = int(years)
 
     for budget in budgets:

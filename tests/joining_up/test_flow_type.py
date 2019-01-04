@@ -1,7 +1,7 @@
 from os.path import dirname, join, realpath
 from unittest import TestCase
 
-from bdd_tester import bdd_tester
+from bdd_tester import BDDTester
 from lxml import etree
 
 
@@ -13,7 +13,7 @@ class TestFlowType(TestCase):
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                             'joining_up', '24_flow_type.feature')
 
-        tester = bdd_tester(steps_path)
+        tester = BDDTester(steps_path)
         feature = tester.load_feature(feature_path)
         self.test = feature.tests[1]
         self.codelists = {'FlowType': ['10', '20', '21', '22', '30',
