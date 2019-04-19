@@ -147,7 +147,8 @@ def given_activity_is_current(xml, **kwargs):
     for transaction in transactions:
         transaction_date = 'transaction-date/@iso-date'
         try:
-            return given_is_less_than_x_months_ago(transaction, transaction_date, 12, **kwargs)
+            return given_is_less_than_x_months_ago(
+                transaction, transaction_date, 12, **kwargs)
         except StepException:
             pass
 
@@ -231,9 +232,9 @@ def given_at_least_x_months_ahead(xml, xpath_expression,
         msg = '`{0}` is not present, so assuming it is not at ' + \
               'least {1} months ahead'
         msg = msg.format(
-                  xpath_expression,
-                  months_ahead,
-              )
+            xpath_expression,
+            months_ahead,
+        )
         raise StepException(xml, msg)
 
     valid_dates = list(filter(
@@ -245,9 +246,9 @@ def given_at_least_x_months_ahead(xml, xpath_expression,
         msg = '`{}` does not use format YYYY-MM-DD, so assuming it ' + \
               'is not at least {} months ahead'
         msg = msg.format(
-                  dates[0],
-                  months_ahead,
-              )
+            dates[0],
+            months_ahead,
+        )
         raise StepException(xml, msg)
 
     max_date = max(valid_dates)
@@ -375,7 +376,7 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
         try:
             start = mkdate(element.xpath('period-start/@iso-date')[0])
             end = mkdate(element.xpath('period-end/@iso-date')[0])
-            within_length = ((end-start).days <= max_budget_length)
+            within_length = (end - start).days <= max_budget_length
         except TypeError:
             return False
         except IndexError:
