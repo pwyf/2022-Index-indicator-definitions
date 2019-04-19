@@ -91,7 +91,6 @@ def then_every_on_codelist(xml, xpath_expression, codelist, **kwargs):
         )
         raise StepException(xml, msg)
 
-    assert(True)
     return xml
 
 
@@ -107,7 +106,6 @@ def then_at_least_one_on_codelist(xml, xpath_expression, codelist, **kwargs):
 
     for val in vals:
         if val in codes:
-            assert(True)
             return xml
 
     msg = '{invalid_vals} {isare} not on the {codelist} codelist'.format(
@@ -130,7 +128,6 @@ def given_activity_is_current(xml, **kwargs):
                   'activity-date[@type="end-planned"]/@iso-date'
     try:
         given_is_less_than_x_months_ago(xml, end_planned, 12, **kwargs)
-        assert(True)
         return xml
     except StepException:
         pass
@@ -139,7 +136,6 @@ def given_activity_is_current(xml, **kwargs):
                  'activity-date[@type="end-actual"]/@iso-date'
     try:
         given_is_less_than_x_months_ago(xml, end_actual, 12, **kwargs)
-        assert(True)
         return xml
     except StepException:
         pass
@@ -155,7 +151,6 @@ def given_activity_is_current(xml, **kwargs):
         transaction_date = 'transaction-date/@iso-date'
         try:
             given_is_less_than_x_months_ago(transaction, transaction_date, 12, **kwargs)
-            assert(True)
             return xml
         except StepException:
             pass
@@ -192,13 +187,11 @@ def given_is_one_of_consts(xml, xpath_expression, consts, **kwargs):
     if len(vals) == 0:
         # explain = '{vals_explain} should be one of {const_explain}. ' + \
         #           'However, the activity doesn\'t contain that element'
-        assert(True)
         return xml
     for val in vals:
         if val in consts_list:
             # explain = '{vals_explain} is one of {const_explain} ' + \
             #           '(it\'s {val})'
-            assert(True)
             return xml
     msg = '`{}` is not one of {} (it\'s {})'.format(
         xpath_expression,
@@ -213,7 +206,6 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
     consts_list = re.split(r', | or ', consts)
     vals = xml.xpath(xpath_expression)
     if len(vals) == 0:
-        assert(True)
         return xml
     for val in vals:
         if val in consts_list:
@@ -223,7 +215,6 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
                 val,
             )
             raise StepException(xml, msg)
-    assert(True)
     return xml
 
 
@@ -315,7 +306,6 @@ def given_is_less_than_x_months_ago(xml, xpath_expression,
     current_date = mkdate(kwargs.get('today'), default=date.today())
     if max_date > current_date:
         # msg = '{prefix}{xpath_expression} ({max_date}) is in the future'
-        assert(True)
         return xml
     year_diff = current_date.year - max_date.year
     month_diff = 12 * year_diff + current_date.month - max_date.month
@@ -325,7 +315,6 @@ def given_is_less_than_x_months_ago(xml, xpath_expression,
         result = month_diff < months_ago
 
     if result:
-        assert(True)
         return xml
 
     msg = '{prefix}{xpath_expression} ({max_date}) is not less than ' + \
@@ -345,7 +334,6 @@ def given_is_not_const(xml, xpath_expression, const, **kwargs):
                 const,
             )
             raise StepException(xml, msg)
-    assert(True)
     return xml
 
 
@@ -357,7 +345,6 @@ def given_is_const(xml, xpath_expression, const, **kwargs):
     else:
         for val in vals:
             if val == const:
-                assert(True)
                 return xml
         msg = '`{}` is not {} (it\'s {})'.format(
             xpath_expression,
@@ -415,7 +402,6 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
         after_ref = check_after(element, today)
         within_length = max_budget_length(element, max_days)
         if after_ref and within_length:
-            assert(True)
             return xml
 
     msg = 'Failed'
@@ -472,7 +458,6 @@ def then_should_start_with_either(xml, xpath_expression1, xpath_expression2,
 
     for prefix in prefixes:
         if target.startswith(prefix):
-            assert(True)
             return xml
 
     msg = '{} doesn\'t start with either `{}` or `{}`'.format(
