@@ -119,24 +119,21 @@ def then_at_least_one_on_codelist(xml, xpath_expression, codelist, **kwargs):
 @given(r'the activity is current')
 def given_activity_is_current(xml, **kwargs):
     try:
-        given_is_const(xml, 'activity-status/@code', '2')
-        return xml
+        return given_is_const(xml, 'activity-status/@code', '2')
     except StepException:
         pass
 
     end_planned = 'activity-date[@type="3"]/@iso-date |' + \
                   'activity-date[@type="end-planned"]/@iso-date'
     try:
-        given_is_less_than_x_months_ago(xml, end_planned, 12, **kwargs)
-        return xml
+        return given_is_less_than_x_months_ago(xml, end_planned, 12, **kwargs)
     except StepException:
         pass
 
     end_actual = 'activity-date[@type="4"]/@iso-date |' + \
                  'activity-date[@type="end-actual"]/@iso-date'
     try:
-        given_is_less_than_x_months_ago(xml, end_actual, 12, **kwargs)
-        return xml
+        return given_is_less_than_x_months_ago(xml, end_actual, 12, **kwargs)
     except StepException:
         pass
 
@@ -150,8 +147,7 @@ def given_activity_is_current(xml, **kwargs):
     for transaction in transactions:
         transaction_date = 'transaction-date/@iso-date'
         try:
-            given_is_less_than_x_months_ago(transaction, transaction_date, 12, **kwargs)
-            return xml
+            return given_is_less_than_x_months_ago(transaction, transaction_date, 12, **kwargs)
         except StepException:
             pass
 
@@ -470,8 +466,7 @@ def then_should_start_with_either(xml, xpath_expression1, xpath_expression2,
 def given_either_or(xml, xpath_expression1, xpath_expression2,
                     consts, **kwargs):
     try:
-        then_is_present(xml, xpath_expression1, **kwargs)
-        return xml
+        return then_is_present(xml, xpath_expression1, **kwargs)
     except StepException:
         pass
 
