@@ -9,6 +9,7 @@ def given_org_file(xml, **kwargs):
     if xml.tag != 'iati-organisation':
         msg = 'Not an organisation file'
         raise StepException(xml, msg)
+    return xml
 
 
 @given(r'this test involves both organisation and activity files')
@@ -22,11 +23,12 @@ def an_iati_activity(xml, **kwargs):
     if xml.tag != 'iati-activity':
         msg = 'Not an IATI activity'
         raise StepException(xml, msg)
+    return xml
 
 
 @then(r'skip it')
 def then_skip_it(xml, **kwargs):
-    pass
+    return xml
 
 
 # NB the original PWYF test also checked non-empty
@@ -36,6 +38,7 @@ def then_is_present(xml, xpath_expression, **kwargs):
     if len(vals) == 0:
         msg = '`{}` not found'.format(xpath_expression)
         raise StepException(xml, msg)
+    return xml
 
 
 @then(r'`([^`]+)` should be present and of non-zero value')
@@ -56,7 +59,7 @@ def then_is_present_and_nonzero(xml, xpath_expression, **kwargs):
         except TypeError:
             continue
         if floatval != 0.:
-            return
+            return xml
     msg = '`{}` should have non-zero value'.format(xpath_expression)
     raise StepException(xml, msg)
 
@@ -89,6 +92,7 @@ def then_every_on_codelist(xml, xpath_expression, codelist, **kwargs):
         raise StepException(xml, msg)
 
     assert(True)
+    return xml
 
 
 @then(r'at least one `([^`]+)` should be on the ([^ ]+) codelist')
@@ -104,7 +108,7 @@ def then_at_least_one_on_codelist(xml, xpath_expression, codelist, **kwargs):
     for val in vals:
         if val in codes:
             assert(True)
-            return
+            return xml
 
     msg = '{invalid_vals} {isare} not on the {codelist} codelist'.format(
         invalid_vals=', '.join(vals),
@@ -118,7 +122,7 @@ def then_at_least_one_on_codelist(xml, xpath_expression, codelist, **kwargs):
 def given_activity_is_current(xml, **kwargs):
     try:
         given_is_const(xml, 'activity-status/@code', '2')
-        return
+        return xml
     except StepException:
         pass
 
@@ -127,7 +131,7 @@ def given_activity_is_current(xml, **kwargs):
     try:
         given_is_less_than_x_months_ago(xml, end_planned, 12, **kwargs)
         assert(True)
-        return
+        return xml
     except StepException:
         pass
 
@@ -136,7 +140,7 @@ def given_activity_is_current(xml, **kwargs):
     try:
         given_is_less_than_x_months_ago(xml, end_actual, 12, **kwargs)
         assert(True)
-        return
+        return xml
     except StepException:
         pass
 
@@ -152,7 +156,7 @@ def given_activity_is_current(xml, **kwargs):
         try:
             given_is_less_than_x_months_ago(transaction, transaction_date, 12, **kwargs)
             assert(True)
-            return
+            return xml
         except StepException:
             pass
 
@@ -178,6 +182,7 @@ def then_at_least_x_chars(xml, xpath_expression, reqd_chars, **kwargs):
             most_chars,
         )
         raise StepException(xml, msg)
+    return xml
 
 
 @given(r'`([^`]+)` is one of ((?:\w+, )*\w+ or \w+)')
@@ -188,13 +193,13 @@ def given_is_one_of_consts(xml, xpath_expression, consts, **kwargs):
         # explain = '{vals_explain} should be one of {const_explain}. ' + \
         #           'However, the activity doesn\'t contain that element'
         assert(True)
-        return
+        return xml
     for val in vals:
         if val in consts_list:
             # explain = '{vals_explain} is one of {const_explain} ' + \
             #           '(it\'s {val})'
             assert(True)
-            return
+            return xml
     msg = '`{}` is not one of {} (it\'s {})'.format(
         xpath_expression,
         consts,
@@ -209,7 +214,7 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
     vals = xml.xpath(xpath_expression)
     if len(vals) == 0:
         assert(True)
-        return
+        return xml
     for val in vals:
         if val in consts_list:
             msg = '`{}` is one of {} (it\'s {})'.format(
@@ -219,7 +224,7 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
             )
             raise StepException(xml, msg)
     assert(True)
-    return
+    return xml
 
 
 def mkdate(date_str, default=None):
@@ -277,6 +282,7 @@ def given_at_least_x_months_ahead(xml, xpath_expression,
             months_ahead,
         )
         raise StepException(xml, msg)
+    return xml
 
 
 @given(r'`([^`]+)` is less than (\d+) months ago')
@@ -310,7 +316,7 @@ def given_is_less_than_x_months_ago(xml, xpath_expression,
     if max_date > current_date:
         # msg = '{prefix}{xpath_expression} ({max_date}) is in the future'
         assert(True)
-        return
+        return xml
     year_diff = current_date.year - max_date.year
     month_diff = 12 * year_diff + current_date.month - max_date.month
     if month_diff == months_ago:
@@ -320,7 +326,7 @@ def given_is_less_than_x_months_ago(xml, xpath_expression,
 
     if result:
         assert(True)
-        return
+        return xml
 
     msg = '{prefix}{xpath_expression} ({max_date}) is not less than ' + \
           '{months_ago} months ago'
@@ -340,6 +346,7 @@ def given_is_not_const(xml, xpath_expression, const, **kwargs):
             )
             raise StepException(xml, msg)
     assert(True)
+    return xml
 
 
 @given(r'`([^`]+)` is ([^ ]+)')
@@ -351,7 +358,7 @@ def given_is_const(xml, xpath_expression, const, **kwargs):
         for val in vals:
             if val == const:
                 assert(True)
-                return
+                return xml
         msg = '`{}` is not {} (it\'s {})'.format(
             xpath_expression,
             const,
@@ -409,7 +416,7 @@ def then_is_available_forward(xml, xpath_expression, period, **kwargs):
         within_length = max_budget_length(element, max_days)
         if after_ref and within_length:
             assert(True)
-            return
+            return xml
 
     msg = 'Failed'
     raise StepException(xml, msg)
@@ -435,7 +442,7 @@ def then_is_available_x_years_forward(xml, xpath_expression,
 
         if budget_end >= future_date:
             if budget_end <= future_plus_oneyear:
-                return True
+                return xml
 
     msg = 'Failed'
     raise StepException(xml, msg)
@@ -466,7 +473,7 @@ def then_should_start_with_either(xml, xpath_expression1, xpath_expression2,
     for prefix in prefixes:
         if target.startswith(prefix):
             assert(True)
-            return
+            return xml
 
     msg = '{} doesn\'t start with either `{}` or `{}`'.format(
         target, xpath_expression2, xpath_expression3)
@@ -479,8 +486,8 @@ def given_either_or(xml, xpath_expression1, xpath_expression2,
                     consts, **kwargs):
     try:
         then_is_present(xml, xpath_expression1, **kwargs)
-        return
+        return xml
     except StepException:
         pass
 
-    given_is_one_of_consts(xml, xpath_expression2, consts, **kwargs)
+    return given_is_one_of_consts(xml, xpath_expression2, consts, **kwargs)
