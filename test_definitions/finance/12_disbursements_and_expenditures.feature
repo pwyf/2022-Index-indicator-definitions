@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Disbursements and expenditures
 
   Scenario Outline: Disbursements or expenditures are present

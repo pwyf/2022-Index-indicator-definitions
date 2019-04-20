@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Aid type
 
   Scenario Outline: Aid type is present

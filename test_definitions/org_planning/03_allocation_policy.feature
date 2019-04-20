@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Allocation policy
 
   Scenario: Allocation policy is present

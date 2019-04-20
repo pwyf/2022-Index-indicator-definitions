@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Current status
 
   Scenario Outline: Current status is present

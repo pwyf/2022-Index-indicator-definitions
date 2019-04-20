@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Organisation strategy
 
   Scenario: Organisation strategy is present

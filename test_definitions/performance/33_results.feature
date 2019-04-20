@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Results
 
   Scenario Outline: Results data

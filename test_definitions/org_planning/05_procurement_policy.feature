@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Procurement policy
 
   Scenario: Procurement policy is present

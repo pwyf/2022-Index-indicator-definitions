@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Title
 
   Scenario Outline: Title is present

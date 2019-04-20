@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Objectives
 
   Scenario Outline: Objectives of activity document

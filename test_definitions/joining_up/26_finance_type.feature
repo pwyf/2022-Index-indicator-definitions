@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Finance type
 
   Scenario Outline: Default finance type

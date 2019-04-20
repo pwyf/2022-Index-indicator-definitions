@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Planned dates
 
   Scenario Outline: Planned start date is present

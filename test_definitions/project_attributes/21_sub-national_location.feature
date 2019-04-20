@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Sub-national location
 
   Scenario Outline: Location (sub-national)

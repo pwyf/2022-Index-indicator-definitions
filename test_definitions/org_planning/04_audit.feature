@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Audit
 
   Scenario: Audit is present

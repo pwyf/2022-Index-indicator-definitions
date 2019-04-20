@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Contact details
 
   Scenario Outline: Contact info is present

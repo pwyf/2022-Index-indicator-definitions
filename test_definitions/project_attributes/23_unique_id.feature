@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Unique ID
 
   Scenario Outline: IATI Identifier is present

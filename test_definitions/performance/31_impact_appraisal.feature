@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Impact appraisal
 
   Scenario Outline: Pre- and/or post-project impact appraisal documents

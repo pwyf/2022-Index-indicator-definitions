@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Description
 
   Scenario Outline: Description is present

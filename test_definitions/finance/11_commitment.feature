@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Commitment
 
   Scenario Outline: Commitment is present

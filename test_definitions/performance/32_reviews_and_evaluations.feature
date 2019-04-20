@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Reviews and evaluations
 
   Scenario Outline: Project performance and evaluation document

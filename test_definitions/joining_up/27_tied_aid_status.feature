@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Tied aid status
 
   Scenario Outline: Tied aid status

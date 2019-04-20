@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Flow type
 
   Scenario Outline: Flow type

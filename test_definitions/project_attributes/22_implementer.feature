@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Implementer
 
   Scenario Outline: Implementing organisation

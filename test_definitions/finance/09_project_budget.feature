@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Budget
 
   Scenario Outline: Budget available forward annually

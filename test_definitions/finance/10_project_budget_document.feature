@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Budget document
 
   Scenario Outline: Budget document is present

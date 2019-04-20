@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Capital spend
 
   Scenario Outline: Capital spend is present

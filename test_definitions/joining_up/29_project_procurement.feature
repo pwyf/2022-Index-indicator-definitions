@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Procurement
 
   Scenario Outline: Tender is present

@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Annual report
 
   Scenario: Annual report is present

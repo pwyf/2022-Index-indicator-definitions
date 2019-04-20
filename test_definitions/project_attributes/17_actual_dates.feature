@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Actual dates
 
   Scenario Outline: Actual start date is present

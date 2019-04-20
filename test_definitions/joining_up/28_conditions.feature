@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Conditions
 
   Scenario Outline: Conditions data

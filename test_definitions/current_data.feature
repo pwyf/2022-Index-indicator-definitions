@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Current data
 
   Scenario Outline: Current data

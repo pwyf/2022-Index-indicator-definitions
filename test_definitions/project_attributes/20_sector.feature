@@ -1,3 +1,4 @@
+@iati-activity
 Feature: Sector
 
   Scenario Outline: Sector is present

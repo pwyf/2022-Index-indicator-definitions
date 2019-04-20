@@ -1,3 +1,4 @@
+@iati-organisation
 Feature: Total organisation budget
 
   Scenario: Organisation budget available one year forward
