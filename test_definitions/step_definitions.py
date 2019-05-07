@@ -218,7 +218,7 @@ def given_is_not_one_of_consts(xml, xpath_expression, consts, **kwargs):
 def mkdate(date_str, default=None):
     try:
         return datetime.strptime(date_str, '%Y-%m-%d').date()
-    except:
+    except (TypeError, ValueError):
         return default
 
 
