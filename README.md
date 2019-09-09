@@ -13,6 +13,6 @@ Please note that this consultation is only on data quality tests used for IATI X
 ## Commenting on indicators
 1. Click through to the [Issues page](https://github.com/pwyf/latest-index-indicator-definitions/issues)
 
-2. Click on an individual indicator to view test proposals. We've tagged the indicator where we've made modifications to the test since the 2018 Index.
+2. Click on an individual indicator to view test proposals. We've tagged the indicator where we're [proposing changes](https://github.com/pwyf/latest-index-indicator-definitions/issues?q=is%3Aissue+is%3Aopen+label%3A%22Proposed+change%22) to the test since the 2018 Index.
 
 3. Please provide your comments in the box below the indicator. You'll need to  [create a free account](https://github.com/join) with Github to comment, if you don't already have one.
