@@ -1,4 +1,4 @@
-## Technical Consultation for the 2020 Aid Transparency Index
+# Technical Consultation for the 2020 Aid Transparency Index
 
 ## Go straight to the [Indicators to add your comments &raquo;](https://github.com/pwyf/latest-index-indicator-definitions/issues)
 
