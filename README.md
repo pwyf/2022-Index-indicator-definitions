@@ -10,6 +10,8 @@ If you have any comments on the tests for each indicator, please add them under 
 
 Please note that this consultation is only on data quality tests used for IATI XML data and not on the Index indicators or the overall methodology. All indicators used in the Aid Transparency Index will be retained.
 
+Please also note that we will no longer be reviewing data published in IATI version 1.0x since this version has now been deprecated by IATI. 
+
 ## Commenting on indicators
 1. Click through to the [Issues page](https://github.com/pwyf/latest-index-indicator-definitions/issues)
 
