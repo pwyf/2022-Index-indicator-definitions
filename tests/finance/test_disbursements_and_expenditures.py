@@ -29,7 +29,7 @@ class TestDisbursementsAndExpenditures(TestCase):
         </iati-activity>
         '''
 
-        for transaction_type in ['3', 'D', '4', 'E']:
+        for transaction_type in ['3', '4']:
             activity = etree.fromstring(xml.format(transaction_type))
             result = self.test(activity)
 
@@ -50,23 +50,3 @@ class TestDisbursementsAndExpenditures(TestCase):
 
         assert result is False
 
-    def test_disbursement_or_expenditure_zero(self):
-        xml = '''
-        <iati-activity>
-          <activity-status code="2"/>
-          <transaction>
-            <transaction-type code="{}"/>
-            <value>{}</value>
-          </transaction>
-        </iati-activity>
-        '''
-
-        for transaction_type in ['3', 'D', '4', 'E']:
-            for value in ['0', '']:
-                activity = etree.fromstring(xml.format(
-                    transaction_type,
-                    value,
-                ))
-                result = self.test(activity)
-
-                assert result is False

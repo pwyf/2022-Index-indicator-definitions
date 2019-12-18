@@ -11,7 +11,7 @@ class TestCapitalSpend(TestCase):
         steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
                           'step_definitions.py')
         feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
-                            'finance', '13_capital_spend.feature')
+                            'finance', '13_budget_alignment.feature')
 
         tester = BDDTester(steps_path)
         feature = tester.load_feature(feature_path)
@@ -90,3 +90,66 @@ class TestCapitalSpend(TestCase):
         result = self.test(activity)
 
         assert result is None
+
+
+class TestCRSCode(TestCase):
+    def setUp(self):
+        self.FILEPATH = dirname(realpath(__file__))
+        steps_path = join(self.FILEPATH, '..', '..', 'test_definitions',
+                          'step_definitions.py')
+        feature_path = join(self.FILEPATH, '..', '..', 'test_definitions',
+                            'finance', '13_budget_alignment.feature')
+
+        tester = BDDTester(steps_path)
+        feature = tester.load_feature(feature_path)
+        self.test = feature.tests[1]
+
+    def test_sector_code(self):
+        xml = '''
+        <iati-activity>
+          <activity-status code="2"/>
+          <default-aid-type code="A09"/>
+          <transaction>
+            <aid-type code="A03"/>
+          </transaction>
+          <sector code="1000"/>
+        </iati-activity>
+        '''
+
+        activity = etree.fromstring(xml)
+        result = self.test(activity)
+
+        assert result is True
+
+    def test_bad_sector_code(self):
+        xml = '''
+        <iati-activity>
+          <activity-status code="2"/>
+          <default-aid-type code="A09"/>
+          <transaction>
+            <aid-type code="A03"/>
+          </transaction>
+          <sector code="43030"/>
+        </iati-activity>
+        '''
+
+        activity = etree.fromstring(xml)
+        result = self.test(activity)
+
+        assert result is False
+
+    def test_not_sector_code(self):
+        xml = '''
+        <iati-activity>
+          <activity-status code="2"/>
+          <default-aid-type code="A09"/>
+          <transaction>
+            <aid-type code="A03"/>
+          </transaction>
+        </iati-activity>
+        '''
+
+        activity = etree.fromstring(xml)
+        result = self.test(activity)
+
+        assert result is False
